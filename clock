@@ -1,0 +1,53 @@
+#!/usr/bin/env python
+import sys
+
+class clock:
+    f = open('file.txt',"r+")
+    tim=f.read().split()
+    f.close()
+    h=int(tim[0])
+    m=int(tim[1])
+    s=int(tim[2])
+    @staticmethod
+    def setin(h,m,s):
+        if(clock.m>59 or clock.s>59):
+            print("invalid time")
+        else :
+            clock.h,clock.m,clock.s = h,m,s
+            newt=str(clock.h)+" "+str(clock.m)+" "+str(clock.s)
+            f = open('file.txt',"r+")
+            f.write(newt)
+            f.close()
+    @staticmethod
+    def iteration(l):
+        clock.s+=l
+        if(clock.s>=60):
+            e=(clock.s)//60
+            clock.m+=e
+            clock.s=clock.s-e*60
+            if(clock.m>=60):
+                y=(clock.m)//60
+                clock.h=(clock.h+y)%24
+                clock.m-=y*60
+        f = open('file.txt',"r+")
+        newt=str(clock.h)+" "+str(clock.m)+" "+str(clock.s)
+        f.write(newt)
+        f.close()  
+    @staticmethod                
+    def get():
+        print("Now the time is %d:%d:%d" %( clock.h,clock.m,clock.s))
+if(__name__=='__main__'):
+    if(len(sys.argv)==1):
+        clock.get()
+    elif(len(sys.argv)==2):
+        clock.iteration(int(sys.argv[1]))
+        clock.get()
+    elif(len(sys.argv)==4):
+        if(int(sys.argv[1])>23 or int(sys.argv[2])>59 or int(sys.argv[3])>59):
+            print("Invalid Time")
+        else:
+            clock.setin(int(sys.argv[1]),int(sys.argv[2]),int(sys.argv[3]))
+            clock.get()
+    else:
+        print("Wrong")
+
